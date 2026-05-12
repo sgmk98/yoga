@@ -19,18 +19,23 @@ export async function GET(request: NextRequest) {
 
     const now = new Date();
     const futureDate = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-    const query =
-      days >= 30
-        ? { approved: true }
-        : {
-            approved: true,
-            paymentDueDate: { $lte: futureDate },
-          };
-
-    const users = await User.find(query)
+    // Fetch all approved users, then filter in JS so leaveExtensionDays is respected.
+    // Effective due date = paymentDueDate + leaveExtensionDays days.
+    const allApproved = await User.find({ approved: true })
       .select('-password -resetToken -resetTokenExpiry')
       .sort({ paymentDueDate: 1, createdAt: 1 });
+
+    const users =
+      days >= 30
+        ? allApproved
+        : allApproved.filter((u) => {
+            if (!u.paymentDueDate) return false;
+            const extension = (u.leaveExtensionDays ?? 0) * MS_PER_DAY;
+            const effectiveDue = new Date(u.paymentDueDate.getTime() + extension);
+            return effectiveDue <= futureDate;
+          });
 
     return NextResponse.json(users);
   } catch (error) {
