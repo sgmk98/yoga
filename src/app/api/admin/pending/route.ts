@@ -12,7 +12,9 @@ export async function GET() {
     }
 
     await dbConnect();
-    const pendingUsers = await User.find({ approved: false, role: 'user' }).select('name email phone');
+    const pendingUsers = await User.find({ approved: false, role: 'user' })
+      .select('-password -resetToken -resetTokenExpiry')
+      .sort({ createdAt: -1 });
     return NextResponse.json(pendingUsers);
   } catch (error) {
     console.error(error);

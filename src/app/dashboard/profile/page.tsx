@@ -41,46 +41,49 @@ export default function ProfilePage() {
         <p>Loading profile…</p>
       ) : profile ? (
         <div className="space-y-6">
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-semibold text-gray-900">Your profile</h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-700">Name</p>
-                <p className="mt-1 text-gray-900">{profile.name}</p>
+                <p className="text-sm uppercase tracking-[0.2em] text-indigo-600">Member profile</p>
+                <h2 className="mt-3 text-3xl font-semibold text-slate-900">Your details</h2>
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Email</p>
-                <p className="mt-1 text-gray-900">{profile.email}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Phone</p>
-                <p className="mt-1 text-gray-900">{profile.phone}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Approval status</p>
-                <p className="mt-1 text-gray-900">{profile.approved ? 'Approved' : 'Pending approval'}</p>
+              <div className="rounded-3xl bg-white px-5 py-4 shadow-sm">
+                <p className="text-sm text-slate-500">Current status</p>
+                <p className="mt-2 text-lg font-semibold text-slate-900">{profile.approved ? 'Approved' : 'Pending approval'}</p>
               </div>
             </div>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div>
-                <p className="text-sm font-medium text-gray-700">Date of birth</p>
-                <p className="mt-1 text-gray-900">{profile.dob || 'Not set'}</p>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-xl font-semibold text-slate-900">Personal info</h3>
+              <div className="mt-6 grid gap-4">
+                {[
+                  { label: 'Name', value: profile.name },
+                  { label: 'Email', value: profile.email },
+                  { label: 'Phone', value: profile.phone },
+                  { label: 'Date of birth', value: profile.dob || 'Not set' },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-3xl bg-slate-50 p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{item.label}</p>
+                    <p className="mt-2 text-sm font-medium text-slate-900">{item.value}</p>
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Date of joining</p>
-                <p className="mt-1 text-gray-900">{profile.dateOfJoining || 'Not set'}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Yoga plan</p>
-                <p className="mt-1 text-gray-900">{profile.yogaPlan ? `${profile.yogaPlan} month${profile.yogaPlan > 1 ? 's' : ''}` : 'Not selected'}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Fees paid</p>
-                <p className="mt-1 text-gray-900">{profile.feesPaid || 'Not set'}</p>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-700">Platform</p>
-                <p className="mt-1 text-gray-900">{profile.platform || 'Not set'}</p>
+            </div>
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-xl font-semibold text-slate-900">Membership details</h3>
+              <div className="mt-6 grid gap-4">
+                {[
+                  { label: 'Yoga plan', value: profile.yogaPlan ? `${profile.yogaPlan} month${profile.yogaPlan > 1 ? 's' : ''}` : 'Not selected' },
+                  { label: 'Fees paid', value: profile.feesPaid || 'Not set' },
+                  { label: 'Platform', value: profile.platform || 'Not set' },
+                  { label: 'Date of joining', value: profile.dateOfJoining || 'Not set' },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-3xl bg-slate-50 p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{item.label}</p>
+                    <p className="mt-2 text-sm font-medium text-slate-900">{item.value}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

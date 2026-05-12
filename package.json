@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
-    ,"seed-admin": "node ./scripts/seed-admin.js"
+    "lint": "eslint",
+    "seed-admin": "node ./scripts/seed-admin.js",
+    "seed-users": "node ./scripts/seed-users.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
