@@ -11,10 +11,13 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
     setError('');
     setSuccess('');
 
@@ -31,6 +34,7 @@ export default function SignUp() {
       setTimeout(() => router.push('/auth/signin'), 2000);
     } else {
       setError(data.error);
+      setLoading(false);
     }
   };
 
@@ -106,9 +110,10 @@ export default function SignUp() {
           {success && <p className="text-sm text-emerald-600">{success}</p>}
           <button
             type="submit"
-            className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5 hover:bg-slate-800"
+            disabled={loading}
+            className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0"
           >
-            Sign up
+            {loading ? 'Creating account…' : 'Sign up'}
           </button>
           <p className="text-center text-sm text-slate-600">
             Already have an account?{' '}
